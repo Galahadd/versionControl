@@ -1,8 +1,6 @@
 ﻿using log4net;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Net;
@@ -18,14 +16,14 @@ namespace VersiyonController
         public int GetLastVersion(SqlConnection connectionString)
         {
             
-             string cmdLastVer = "select top 1 Versions from version order by Tarih desc";
-             SqlCommand cmdLastVersion = new SqlCommand();
-             connectionString.Open();
-             cmdLastVersion.Connection = connectionString;
-             cmdLastVersion.CommandText = cmdLastVer;
-             var lastVersion = Convert.ToInt32(cmdLastVersion.ExecuteScalar());           
-             connectionString.Close();
-             return lastVersion;
+            string cmdLastVer = "select top 1 Versions from version order by Tarih desc";
+            SqlCommand cmdLastVersion = new SqlCommand();
+            connectionString.Open();
+            cmdLastVersion.Connection = connectionString;
+            cmdLastVersion.CommandText = cmdLastVer;
+            var lastVersion = Convert.ToInt32(cmdLastVersion.ExecuteScalar());
+            connectionString.Close();
+            return lastVersion;
         }
         public int GetCurrentVersion(SqlConnection connectionString1)
         {
@@ -41,41 +39,45 @@ namespace VersiyonController
 
             return CurrentVersion;
         }
-        public string ScriptReader(string docPath, string connectionString)
+        public string ScriptReader(string docPath, string connectionString,int suanVer)
         {
             SqlConnection connection = new SqlConnection(connectionString);
+           
                 connection.Open();
                 SqlTransaction transaction = connection.BeginTransaction();
                 var message = "";
-                try
+            try
+            {
+                FileInfo file = new FileInfo(docPath);
+                string sqlCommand = file.OpenText().ReadToEnd();
+                SqlCommand cmdScript = new SqlCommand(sqlCommand, connection, transaction);
+                cmdScript.ExecuteNonQuery();
+                transaction.Commit();
+
+            }
+            catch (SqlException ex)
+            {
+
+                for (int i = 0; i < ex.Errors.Count; i++)
                 {
-                    FileInfo file = new FileInfo(docPath);
-                    string sqlCommand = file.OpenText().ReadToEnd();
-                    SqlCommand cmdScript = new SqlCommand(sqlCommand, connection, transaction);
-                    cmdScript.ExecuteNonQuery();
-                    transaction.Commit();
-
+                    log.Error("|| "+suanVer+".scriptin|" + ex.Errors[i].LineNumber + "| . satırında hata var! Hata Türü : " + ex.Errors[i] + " ", ex);
                 }
-                catch (SqlException ex)
-                {
+                transaction.Rollback();
+                transaction.Dispose();
+                message = ex.Message;
+            }
+            finally
+            {
 
-                    for (int i = 0; i < ex.Errors.Count; i++)
-                    {
-                        log.Error("|| .scriptin|" + ex.Errors[i].LineNumber + "| . satırında hata var! Hata Türü : " + ex.Errors[i] + " ", ex);
-                    }
-                    transaction.Rollback();
-                    transaction.Dispose();
-                    message = ex.Message;
-                }
-                finally
-                {
-                    connection.Close();
+                connection.Close();
+                GetCurrentVersion(connection);
+                
 
-                }
-
+            }
+            
             
              string message1 = "transaction başarılı";
-            log.Info("Transaction Başarılı");
+             log.Info("Transaction Başarılı");
             
             return message1;
 
