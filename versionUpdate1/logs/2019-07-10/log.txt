@@ -1,0 +1,5 @@
+2019-07-10 17:43:30.0137    7 ERROR versionUpdate1.versionControl Hata Türü : System.Data.SqlClient.SqlError: Unclosed quotation mark after the character string ',20);
+'. |4| .scriptin|4| . satirinda hata var! (TOPLAM 4 hata var.) 
+2019-07-10 17:43:30.0827    7 ERROR versionUpdate1.versionControl Hata Türü : System.Data.SqlClient.SqlError: Incorrect syntax near 'Kaya'. |4| .scriptin|4| . satirinda hata var! (TOPLAM 4 hata var.) 
+2019-07-10 17:43:30.0827    7 ERROR versionUpdate1.versionControl Hata Türü : System.Data.SqlClient.SqlError: Incorrect syntax near ','. |4| .scriptin|3| . satirinda hata var! (TOPLAM 4 hata var.) 
+2019-07-10 17:43:30.0827    7 ERROR versionUpdate1.versionControl Hata Türü : System.Data.SqlClient.SqlError: Incorrect syntax near 'Recep'. |4| .scriptin|2| . satirinda hata var! (TOPLAM 4 hata var.) 

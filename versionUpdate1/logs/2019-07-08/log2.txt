@@ -1,0 +1,22 @@
+
+2019-07-08 16:31:08.1686    9 ERROR versionUpdate1.versionControl Numarali satirda 6 
+2019-07-08 16:32:36.1007   11 ERROR versionUpdate1.versionControl 1.scriptin6. satirinda hata var! 
+2019-07-08 16:33:17.4355    9 ERROR versionUpdate1.versionControl 2.scriptin1. satirinda hata var! 
+2019-07-08 16:34:15.7025    9 ERROR versionUpdate1.versionControl Incorrect syntax near ','.2.scriptin1. satirinda hata var! 
+2019-07-08 16:35:36.5961    9 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','.2 .scriptin1. satirinda hata var! 
+2019-07-08 16:36:29.5063   13 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','.------2 .scriptin 1. satirinda hata var! 
+2019-07-08 16:40:51.2119    6 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2 |.scriptin |1|. satirinda hata var! 
+2019-07-08 16:41:14.8459    6 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2 |.scriptin|1|. satirinda hata var! 
+2019-07-08 16:41:38.5667    6 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2|.scriptin|1|. satirinda hata var! 
+2019-07-08 17:05:03.1340   12 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2|.scriptin|1|. satirinda hata var! 
+2019-07-08 17:06:32.6685   10 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2|.scriptin|1|. satirinda hata var! 
+2019-07-08 17:16:45.3456    5 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2|.scriptin|1|. satirinda hata var! 
+2019-07-08 17:19:21.2868    6 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2|.scriptin|1|. satirinda hata var! 
+2019-07-08 17:22:28.5292   11 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2|.scriptin|1|. satirinda hata var! 
+2019-07-08 17:23:58.8050   10 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2|.scriptin|1|. satirinda hata var! 
+2019-07-08 17:26:11.4855   11 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2|.scriptin|1|. satirinda hata var! 
+2019-07-08 17:27:02.0164    9 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2|.scriptin|1|. satirinda hata var! 
+2019-07-08 17:30:44.4642    5 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2|.scriptin|1|. satirinda hata var! 
+2019-07-08 17:42:07.7968    5 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2|.scriptin|1|. satirinda hata var! 
+2019-07-08 17:46:45.5233    8 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2|.scriptin|1|. satirinda hata var! 
+2019-07-08 17:50:13.2376   11 ERROR versionUpdate1.versionControl Hata Türü : Incorrect syntax near ','. |2|.scriptin|1|. satirinda hata var! 
