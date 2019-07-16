@@ -75,12 +75,12 @@ namespace versionUpdate1
             //baglanti1.Open();
             //SqlTransaction tran = baglanti1.BeginTransaction();
             programVersion += 1;
-            adet += 1;
+           
             if (programVersion != lastVersion)
             {
-                do
-                {
-                    for (int i = programVersion; i < adet ; i++)
+                //do
+                //{
+                    for (int i = programVersion; i <= adet ; i++)
                     {
                         programVersion = i;
                         var path = "C:\\Users\\recep.kaya.BIMSADOM\\Desktop\\scripts\\" + programVersion + ".sql";
@@ -88,11 +88,8 @@ namespace versionUpdate1
                     }
                   
                     
-                } while (lastVersion != programVersion);
-               
-
-
-               
+                //} while (lastVersion != programVersion);
+                             
                 //try
                 //{
                 //    do

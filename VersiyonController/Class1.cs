@@ -43,40 +43,41 @@ namespace VersiyonController
         }
         public string ScriptReader(string docPath, string connectionString)
         {
-
             SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
-            SqlTransaction transaction = connection.BeginTransaction();
-            var message = "";
-            try
-            {
-                FileInfo file = new FileInfo(docPath);
-                string sqlCommand = file.OpenText().ReadToEnd();
-                SqlCommand cmdScript = new SqlCommand(sqlCommand, connection, transaction);
-                cmdScript.ExecuteNonQuery();
-                transaction.Commit();
-                
-            }
-            catch (SqlException ex)
-            { 
-                
-                for (int i = 0; i < ex.Errors.Count; i++)
+                connection.Open();
+                SqlTransaction transaction = connection.BeginTransaction();
+                var message = "";
+                try
                 {
-                  log.Error("|| .scriptin|" + ex.Errors[i].LineNumber + "| . satırında hata var! Hata Türü : " + ex.Errors[i] + " ", ex);
+                    FileInfo file = new FileInfo(docPath);
+                    string sqlCommand = file.OpenText().ReadToEnd();
+                    SqlCommand cmdScript = new SqlCommand(sqlCommand, connection, transaction);
+                    cmdScript.ExecuteNonQuery();
+                    transaction.Commit();
+
                 }
-                transaction.Rollback();
-                transaction.Dispose();
-                message = ex.Message;
-            }
-            finally
-            {
-                connection.Close();
+                catch (SqlException ex)
+                {
 
-            }
-            message = "transaction başarılı";
+                    for (int i = 0; i < ex.Errors.Count; i++)
+                    {
+                        log.Error("|| .scriptin|" + ex.Errors[i].LineNumber + "| . satırında hata var! Hata Türü : " + ex.Errors[i] + " ", ex);
+                    }
+                    transaction.Rollback();
+                    transaction.Dispose();
+                    message = ex.Message;
+                }
+                finally
+                {
+                    connection.Close();
+
+                }
+
+            
+             string message1 = "transaction başarılı";
             log.Info("Transaction Başarılı");
-
-            return message;
+            
+            return message1;
 
         }
         public int DocCount(string docPath)
