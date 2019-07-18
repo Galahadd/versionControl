@@ -40,7 +40,7 @@ namespace versionUpdate1
 
 
             Class1 currentget = new Class1();
-
+            Mail sendmail = new Mail();
             var currentVer = currentget.GetCurrentVersion(new SqlConnection(connectionString1));
             int programVersion = currentVer;
             //baglantiZımbırtı.Close();
@@ -75,115 +75,122 @@ namespace versionUpdate1
             {
                 //do
                 //{
-                  for (int i = programVersion; i <= adet; i++)
-                    {
-                        programVersion = i;
-                        var path = "C:\\Users\\recep.kaya.BIMSADOM\\Desktop\\scripts\\" + programVersion + ".sql";
-                        var transonuc = currentget.ScriptReader(path, connectionString,programVersion);
-                   }
-
-                 
-                    //} while (lastVersion != programVersion);
+                //for (int i = programVersion; i <= adet; i++)
+                //{
+                    //programVersion = i;
+                    var path1 = "C:\\Users\\recep.kaya.BIMSADOM\\Desktop\\scripts\\" + programVersion + ".sql";
+                    var path = "C:\\Users\\recep.kaya.BIMSADOM\\Desktop\\scripts";
+                    //currentget.FileFind(path,programVersion);
+                    currentget.ScriptReader(path, connectionString, programVersion);
+                Mail posta = new Mail();
+                posta.FromMail = "sabancidxtest@gmail.com";
+                posta.Body = "sa";
+                posta.ToMail = "recepkaya57@gmail.com";
+                posta.SendMail();
 
                     //try
                     //{
-                    //    do
-                    //    {
-                    //        for (int i = programVersion  ; i < files.Length; i++)
-                    //        {
-                    //            //Dosyadaki scriptleri işliyor
-                    //            programVersion = i ;
-                    //            int dosyaNo = i;
-                    //            FileInfo file = new FileInfo("C:\\Users\\recep.kaya.BIMSADOM\\Desktop\\scripts\\" + dosyaNo + ".sql");
-                    //            string script = file.OpenText().ReadToEnd();
-                    //            SqlCommand komut1 = new SqlCommand(script, baglanti1, tran);
-                    //            komut1.ExecuteNonQuery();
+                        //    do                //}
 
 
-                    //        }
-
-                    //    } while (lastVersion != programVersion);
-
-                    //    tran.Commit();
-
-                    //    //"BAŞARILI" işlem bilgi maili class smtpparams oluştur 
-                    //    MailMessage mail = new MailMessage("sabancidxtest@gmail.com", "recepkaya57@gmail.com");
-                    //    mail.To.Add(new MailAddress("recepkaya57@gmail.com"));
-                    //    mail.From = new MailAddress("sabancidxtest@gmail.com", "Recep Kaya");
-                    //    mail.Subject = "Sonuç";
-                    //    mail.BodyEncoding = UTF8Encoding.UTF8;
-                    //    mail.Body = "Transaction Başarılı.Hata yok!!";
-                    //    SmtpClient smtp = new SmtpClient("sabancidxtest@gmail.com", 587)
-                    //    {
-                    //        Credentials = new NetworkCredential("sabancidxtest@gmail.com", "134679852recep"),
-                    //        Port = 587,
-                    //        Host = "smtp.gmail.com",
-                    //        EnableSsl = true,
-
-                    //    };
-                    //    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    //    smtp.Send(mail);
-                    //    mail.Dispose();
-
-                    //    //transaction başarılı olursa currentVer alanını en son versiyona eşitliyor ve update tamamlanmış oluyor.
-                    //    SqlConnection baglanti3 = new SqlConnection("Data Source=PC_RKAYAW10E\\MYSERVERR;Initial Catalog=Program;Persist Security Info=True;User ID=sa;Password=Bimsa.1998");
-                    //    baglanti3.Open();
-                    //    string guncelle = "update currentVer set currentVer=" + lastVersion + "where currentVer=" + tmpVer + "";
-                    //    SqlCommand komut3 = new SqlCommand(guncelle, baglanti3);
-                    //    SqlDataAdapter da = new SqlDataAdapter(komut3);
-                    //    komut3.ExecuteNonQuery();
-                    //    baglanti3.Close();
-                    //}
-
-                    //catch (SqlException ex)
-                    //{
-
-                    //    tran.Rollback();
-                    //    tran.Dispose();
-
-                    //    //log dosyası oluşturuluyor.
-
-                    //    log.Error("TOPLAM " + ex.Errors.Count + " hata var.");
-                    //    for (int i = 0 ; i < ex.Errors.Count ; i++)
-                    //    {
-
-                    //        log.Error("|" + programVersion + "| .scriptin|" + ex.Errors[i].LineNumber + "| . satırında hata var! Hata Türü : " + ex.Errors[i].Message + " ", ex);
-                    //    }
-
-                    //    //exception durumunda hata maili
-                    //    MailMessage mail = new MailMessage("sabancidxtest@gmail.com", "recepkaya57@gmail.com");
-                    //    mail.To.Add(new MailAddress("recepkaya57@gmail.com"));
-                    //    mail.From = new MailAddress("sabancidxtest@gmail.com", "versionControl");
-                    //    mail.Subject = "Hata";
-                    //    mail.BodyEncoding = UTF8Encoding.UTF8;
-                    //    mail.Body = "İŞLEM BAŞARISIZ.!(Bu script içinde TOPLAM : " + ex.Errors.Count + " hata var.)";
-                    //    SmtpClient smtp = new SmtpClient("sabancidxtest@gmail.com", 587)
-                    //    {
-                    //        Credentials = new NetworkCredential("sabancidxtest@gmail.com", "134679852recep"),
-                    //        Port = 587,
-                    //        Host = "smtp.gmail.com",
-                    //        EnableSsl = true,
-
-                    //    };
-                    //    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    //    smtp.Send(mail);
-                    //    mail.Dispose();
-
-                    //}
-                    //finally
-                    //{
-                    //    baglanti1.Close();
+                        //} while (lastVersion != programVersion);
+                        //    {
+                        //        for (int i = programVersion  ; i < files.Length; i++)
+                        //        {
+                        //            //Dosyadaki scriptleri işliyor
+                        //            programVersion = i ;
+                        //            int dosyaNo = i;
+                        //            FileInfo file = new FileInfo("C:\\Users\\recep.kaya.BIMSADOM\\Desktop\\scripts\\" + dosyaNo + ".sql");
+                        //            string script = file.OpenText().ReadToEnd();
+                        //            SqlCommand komut1 = new SqlCommand(script, baglanti1, tran);
+                        //            komut1.ExecuteNonQuery();
 
 
-                    //}
+                        //        }
+
+                        //    } while (lastVersion != programVersion);
+
+                        //    tran.Commit();
+
+                        //    //"BAŞARILI" işlem bilgi maili class smtpparams oluştur 
+                        //    MailMessage mail = new MailMessage("sabancidxtest@gmail.com", "recepkaya57@gmail.com");
+                        //    mail.To.Add(new MailAddress("recepkaya57@gmail.com"));
+                        //    mail.From = new MailAddress("sabancidxtest@gmail.com", "Recep Kaya");
+                        //    mail.Subject = "Sonuç";
+                        //    mail.BodyEncoding = UTF8Encoding.UTF8;
+                        //    mail.Body = "Transaction Başarılı.Hata yok!!";
+                        //    SmtpClient smtp = new SmtpClient("sabancidxtest@gmail.com", 587)
+                        //    {
+                        //        Credentials = new NetworkCredential("sabancidxtest@gmail.com", "134679852recep"),
+                        //        Port = 587,
+                        //        Host = "smtp.gmail.com",
+                        //        EnableSsl = true,
+
+                        //    };
+                        //    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        //    smtp.Send(mail);
+                        //    mail.Dispose();
+
+                        //    //transaction başarılı olursa currentVer alanını en son versiyona eşitliyor ve update tamamlanmış oluyor.
+                        //    SqlConnection baglanti3 = new SqlConnection("Data Source=PC_RKAYAW10E\\MYSERVERR;Initial Catalog=Program;Persist Security Info=True;User ID=sa;Password=Bimsa.1998");
+                        //    baglanti3.Open();
+                        //    string guncelle = "update currentVer set currentVer=" + lastVersion + "where currentVer=" + tmpVer + "";
+                        //    SqlCommand komut3 = new SqlCommand(guncelle, baglanti3);
+                        //    SqlDataAdapter da = new SqlDataAdapter(komut3);
+                        //    komut3.ExecuteNonQuery();
+                        //    baglanti3.Close();
+                        //}
+
+                        //catch (SqlException ex)
+                        //{
+
+                        //    tran.Rollback();
+                        //    tran.Dispose();
+
+                        //    //log dosyası oluşturuluyor.
+
+                        //    log.Error("TOPLAM " + ex.Errors.Count + " hata var.");
+                        //    for (int i = 0 ; i < ex.Errors.Count ; i++)
+                        //    {
+
+                        //        log.Error("|" + programVersion + "| .scriptin|" + ex.Errors[i].LineNumber + "| . satırında hata var! Hata Türü : " + ex.Errors[i].Message + " ", ex);
+                        //    }
+
+                        //    //exception durumunda hata maili
+                        //    MailMessage mail = new MailMessage("sabancidxtest@gmail.com", "recepkaya57@gmail.com");
+                        //    mail.To.Add(new MailAddress("recepkaya57@gmail.com"));
+                        //    mail.From = new MailAddress("sabancidxtest@gmail.com", "versionControl");
+                        //    mail.Subject = "Hata";
+                        //    mail.BodyEncoding = UTF8Encoding.UTF8;
+                        //    mail.Body = "İŞLEM BAŞARISIZ.!(Bu script içinde TOPLAM : " + ex.Errors.Count + " hata var.)";
+                        //    SmtpClient smtp = new SmtpClient("sabancidxtest@gmail.com", 587)
+                        //    {
+                        //        Credentials = new NetworkCredential("sabancidxtest@gmail.com", "134679852recep"),
+                        //        Port = 587,
+                        //        Host = "smtp.gmail.com",
+                        //        EnableSsl = true,
+
+                        //    };
+                        //    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        //    smtp.Send(mail);
+                        //    mail.Dispose();
+
+                        //}
+                        //finally
+                        //{
+                        //    baglanti1.Close();
 
 
+                        //}
+
+
+                    }
                 }
-            }
 
+
+            }
 
         }
 
-
-
-    }
+    //    }
+    //}

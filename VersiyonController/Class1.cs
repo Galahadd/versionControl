@@ -1,5 +1,6 @@
 ﻿using log4net;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
@@ -12,10 +13,28 @@ namespace VersiyonController
     public class Class1
     {
 
+        //public List<string> FileFind(string docPath,int programVersion)
+        //{
+        //    List<string> dosyalar = new List<string>();
+        //    DirectoryInfo di = new DirectoryInfo(docPath);
+        //    FileInfo[] files = di.GetFiles();
+
+        //    for (int i = programVersion; i < dosyalar; i++)
+        //    {
+
+        //    }            {
+        //        dosyalar.Add(script.ToString());
+
+        //    }
+             
+        //    return dosyalar;
+        //}
+
+
         private static ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public int GetLastVersion(SqlConnection connectionString)
         {
-            
+
             string cmdLastVer = "select top 1 Versions from version order by Tarih desc";
             SqlCommand cmdLastVersion = new SqlCommand();
             connectionString.Open();
@@ -27,7 +46,6 @@ namespace VersiyonController
         }
         public int GetCurrentVersion(SqlConnection connectionString1)
         {
-            
             string cmdCurrentVer = "select currentVer from currentVer";
             SqlCommand cmdCurrentVersion = new SqlCommand();
             connectionString1.Open();
@@ -36,52 +54,47 @@ namespace VersiyonController
             var CurrentVersion = Convert.ToInt32(cmdCurrentVersion.ExecuteScalar());
             connectionString1.Close();
             var de = connectionString1;
-
             return CurrentVersion;
         }
-        public string ScriptReader(string docPath, string connectionString,int suanVer)
+        public string ScriptReader(string docPath, string connectionString,int programVersion)//currentVer
         {
             SqlConnection connection = new SqlConnection(connectionString);
-           
-                connection.Open();
-                SqlTransaction transaction = connection.BeginTransaction();
-                var message = "";
+            connection.Open();
+            SqlTransaction transaction = connection.BeginTransaction();
+            string[] dosyalar = Directory.GetFiles(docPath);
             try
             {
-                FileInfo file = new FileInfo(docPath);
-                string sqlCommand = file.OpenText().ReadToEnd();
-                SqlCommand cmdScript = new SqlCommand(sqlCommand, connection, transaction);
-                cmdScript.ExecuteNonQuery();
+                for (int j = programVersion - 1; j < dosyalar.Length; j++)
+                {
+                    FileInfo file = new FileInfo(dosyalar[j]);
+                    string sqlCommand = file.OpenText().ReadToEnd();
+                    SqlCommand cmdScript = new SqlCommand(sqlCommand, connection, transaction);
+                    cmdScript.ExecuteNonQuery();
+                }
                 transaction.Commit();
-
             }
             catch (SqlException ex)
             {
-
-                for (int i = 0; i < ex.Errors.Count; i++)
-                {
-                    log.Error("|| "+suanVer+".scriptin|" + ex.Errors[i].LineNumber + "| . satırında hata var! Hata Türü : " + ex.Errors[i] + " ", ex);
-                }
                 transaction.Rollback();
                 transaction.Dispose();
-                message = ex.Message;
+                for (int i = 0; i < ex.Errors.Count; i++)
+                {
+                    
+                    log.Error("||" + programVersion + " .scriptin|" + ex.Errors[i].LineNumber + "| . satırında hata var! Hata Türü : " + ex.Errors[i] + " ", ex);
+                }
+                string message = ex.Message;
             }
             finally
             {
-
                 connection.Close();
-                GetCurrentVersion(connection);
-                
 
             }
-            
-            
-             string message1 = "transaction başarılı";
-             log.Info("Transaction Başarılı");
-            
-            return message1;
 
+            string message1 = "transaction başarılı";
+            log.Info("Transaction Başarılı");
+            return message1;
         }
+      
         public int DocCount(string docPath)
         {
             int dosyaSayisi = Directory.GetFiles(docPath).Length;
@@ -92,65 +105,64 @@ namespace VersiyonController
             }
             return dosyaSayisi;
         }
-        
+
     }
 
-        public class Mail
+    public class Mail
+    {
+        private readonly MailMessage M;
+
+        public Mail()
         {
-            private readonly MailMessage M;
+            M = new MailMessage();
+            M.IsBodyHtml = true;
+        }
 
-            public Mail()
-            {
-                M = new MailMessage(); 
-                M.Sender = M.From = new MailAddress(ConfigurationManager.AppSettings["sabancidxtest@gmail.com"]);
-                M.IsBodyHtml = true;
-            }
-
-            public bool IsHTML
-            {
-                set { M.IsBodyHtml = value; }
-            }
-
-            public string ToMail
-            {
-                set
-                {
-                    M.To.Add(value);
-                }
-            }
-
-            public string FromMail
+        public bool IsHTML
         {
-               
-                set { M.Sender = M.From = new MailAddress(value); }
+            set { M.IsBodyHtml = value; }
+        }
+
+        public string ToMail
+        {
+            set;
+            get;
+           
+           
+        }
+
+        public string FromMail
+        {
+
+            set;
+            get;
+            
         }
 
         public string Subject
-            {
-            set { M.Subject = value; }
-            }
+        {
+            set;
+            get;
 
-            public string Body
-            {
-                get { return M.Body; }
-                set { M.Body = value; }
-            }
-
-            public void SendMail()
-            {
-                SmtpClient smtpClient = new SmtpClient();
-                smtpClient.Host = ConfigurationManager.AppSettings["smtpHost"].ToString();
-                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtpClient.Port = 587;
-                smtpClient.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["mail"].ToString(),
-                ConfigurationManager.AppSettings["password"].ToString());
-                smtpClient.Send(M);
-            }
         }
-        
 
+        public string Body
+        { 
+            set { M.Body = value; }
+            get { return M.Body; }
+        }
 
-        
+        public void SendMail()
+        {
+
+            MailMessage mail = new MailMessage(FromMail,ToMail, Subject, Body);
+            var smtpClient = new SmtpClient("smtp.gmail.com", 587);
+            smtpClient.Credentials = new NetworkCredential("sabancidxtest@gmail.com", "134679852recep");
+          smtpClient.Send(M);
+        }
     }
-    
 
+
+
+
+}
