@@ -1,5 +1,6 @@
 ﻿using log4net;
 using System;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
 using System.Net;
@@ -8,7 +9,7 @@ using System.Reflection;
 
 namespace VersiyonController
 {
-    public class Class1
+    public class Class1 : Mail
     {
 
         //public List<string> FileFind(string docPath,int programVersion)
@@ -56,18 +57,19 @@ namespace VersiyonController
             var de = connectionString1;
             return CurrentVersion;
         }
-        public string ScriptReader(string docPath, string connectionString,int programVersion)//currentVer
+        public void ScriptReader(string docPath, string connectionString)
         {
-            
             SqlConnection connection = new SqlConnection(connectionString);
+            int suanVer = GetCurrentVersion(connection);
+            int LastVer = GetLastVersion(connection);
             connection.Open();
             SqlTransaction transaction = connection.BeginTransaction();
             string[] dosyalar = Directory.GetFiles(docPath);
             try
             {
-                
-                for (int j = programVersion - 1; j < dosyalar.Length; j++)
+                for (int j = suanVer; j < LastVer; j++)
                 {
+                    suanVer += 1;
                     FileInfo file = new FileInfo(dosyalar[j]);
                     string sqlCommand = file.OpenText().ReadToEnd();
                     SqlCommand cmdScript = new SqlCommand(sqlCommand, connection, transaction);
@@ -77,14 +79,16 @@ namespace VersiyonController
             }
             catch (SqlException ex)
             {
+                //SendMail();
                 catchstatus += 1;
                 transaction.Rollback();
                 transaction.Dispose();
                 for (int i = 0; i < ex.Errors.Count; i++)
                 {
                     
-                    log.Error("||" + programVersion + " .scriptin|" + ex.Errors[i].LineNumber + "| . satırında hata var! Hata Türü : " + ex.Errors[i] + " ", ex);
+                    log.Error("||" + suanVer + " .scriptin|" + ex.Errors[i].LineNumber + "| . satırında hata var! Hata Türü : " + ex.Errors[i] + " ", ex);
                 }
+                
                 string message = ex.Message;
             }
             finally
@@ -95,19 +99,14 @@ namespace VersiyonController
 
             if (catchstatus == 0)
             {
-                programVersion -= 1;
+                suanVer -= 1;
                 SqlConnection connection1 = new SqlConnection(connectionString);
                 connection1.Open();
-                string guncelle = "update currentVer set currentVer=" + dosyalar.Length + "where currentVer=" + programVersion + "";
+                string guncelle = "update currentVer set currentVer=" + dosyalar.Length + "where currentVer=" +suanVer + "";
                 SqlCommand komutUpdate = new SqlCommand(guncelle, connection1);
                 komutUpdate.ExecuteNonQuery();
                 connection1.Close();
-
-
             }
-            string message1 = "transaction başarılı";
-            log.Info("Transaction Başarılı");
-            return message1;
         }
       
         public int DocCount(string docPath)
@@ -123,13 +122,15 @@ namespace VersiyonController
 
     }
 
-    public class Mail
+    public class Mail 
     {
         private readonly MailMessage M;
 
         public Mail()
         {
             M = new MailMessage();
+            //M.From = new MailAddress("FromAdress", "Name");
+            //M.To.Add(new MailAddress("ToAdress"));
             M.IsBodyHtml = true;
         }
 
@@ -140,26 +141,22 @@ namespace VersiyonController
 
         public string ToMail
         {
-            set;
-            get;
-           
-           
+            set { M.To.Add(value);}
+        
         }
 
         public string FromMail
         {
-
-            set;
-            get;
-            
-        }
-
-        public string Subject
-        {
-            set;
-            get;
+            set { M.From = new MailAddress(value); }
 
         }
+
+    public string Subject
+    {
+        set { M.Subject = value; }
+
+
+    }
 
         public string Body
         { 
@@ -167,14 +164,20 @@ namespace VersiyonController
             get { return M.Body; }
         }
 
-        public void SendMail()
-        {
-
-            MailMessage mail = new MailMessage(FromMail,ToMail, Subject, Body);
-            var smtpClient = new SmtpClient("smtp.gmail.com", 587);
-            smtpClient.Credentials = new NetworkCredential("sabancidxtest@gmail.com", "134679852recep");
-            smtpClient.Send(M);
-        }
+        //public  void SendMail()
+        //{
+        //    MailMessage mail = new MailMessage("FromAdress","ToAdress");
+        //    SmtpClient smtp = new SmtpClient("fromAdress", 587)
+        //    {
+        //        Credentials = new NetworkCredential("FromAdress", "fromAdressPassword"),
+        //        Port = 587,
+        //        Host = "SmtpClient",
+        //        EnableSsl = true,
+        //    };
+        //    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+        //       smtp.Send(M);
+        //       mail.Dispose();
+        //}
     }
 
 
