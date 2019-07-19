@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 using System.Reflection;
 using log4net;
 using VersiyonController;
-
+using System.Net.Mail;
 
 namespace versionUpdate1
 {
@@ -83,6 +83,7 @@ namespace versionUpdate1
                     //currentget.FileFind(path,programVersion);
                     currentget.ScriptReader(path, connectionString, programVersion);
                 Mail posta = new Mail();
+                MailMessage mail = new MailMessage("sabancidxtest@gmail.com", "recepkaya57@gmail.com");
                 posta.FromMail = "sabancidxtest@gmail.com";
                 posta.Body = "sa";
                 posta.ToMail = "recepkaya57@gmail.com";

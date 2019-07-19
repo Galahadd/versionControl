@@ -1,7 +1,5 @@
 ﻿using log4net;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
 using System.Net;
@@ -32,6 +30,8 @@ namespace VersiyonController
 
 
         private static ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private int catchstatus = 0;
+
         public int GetLastVersion(SqlConnection connectionString)
         {
 
@@ -58,12 +58,14 @@ namespace VersiyonController
         }
         public string ScriptReader(string docPath, string connectionString,int programVersion)//currentVer
         {
+            
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
             SqlTransaction transaction = connection.BeginTransaction();
             string[] dosyalar = Directory.GetFiles(docPath);
             try
             {
+                
                 for (int j = programVersion - 1; j < dosyalar.Length; j++)
                 {
                     FileInfo file = new FileInfo(dosyalar[j]);
@@ -75,6 +77,7 @@ namespace VersiyonController
             }
             catch (SqlException ex)
             {
+                catchstatus += 1;
                 transaction.Rollback();
                 transaction.Dispose();
                 for (int i = 0; i < ex.Errors.Count; i++)
@@ -90,6 +93,18 @@ namespace VersiyonController
 
             }
 
+            if (catchstatus == 0)
+            {
+                programVersion -= 1;
+                SqlConnection connection1 = new SqlConnection(connectionString);
+                connection1.Open();
+                string guncelle = "update currentVer set currentVer=" + dosyalar.Length + "where currentVer=" + programVersion + "";
+                SqlCommand komutUpdate = new SqlCommand(guncelle, connection1);
+                komutUpdate.ExecuteNonQuery();
+                connection1.Close();
+
+
+            }
             string message1 = "transaction başarılı";
             log.Info("Transaction Başarılı");
             return message1;
@@ -158,7 +173,7 @@ namespace VersiyonController
             MailMessage mail = new MailMessage(FromMail,ToMail, Subject, Body);
             var smtpClient = new SmtpClient("smtp.gmail.com", 587);
             smtpClient.Credentials = new NetworkCredential("sabancidxtest@gmail.com", "134679852recep");
-          smtpClient.Send(M);
+            smtpClient.Send(M);
         }
     }
 
