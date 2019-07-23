@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Reflection;
 using log4net;
 using VersiyonController;
@@ -15,8 +16,7 @@ namespace versionUpdate1
         // private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-
-
+        
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -36,22 +36,21 @@ namespace versionUpdate1
             //komut2.CommandText = "select  currentVer from currentVer";
             //komut2.Connection = baglantiZımbırtı;
             //int programVersion = Convert.ToInt32(komut2.ExecuteScalar());
-
-
-
+          
             Class1 currentget = new Class1();
             Mail sendmail = new Mail();
-            var currentVer = currentget.GetCurrentVersion(new SqlConnection(connectionString1));
-            int programVersion = currentVer;
-            //baglantiZımbırtı.Close();
+         
+            //baglantiZımbcırtı.Close();
             int tmpVer = 0;
-            tmpVer = programVersion;
+            currentget.FromResource("BoundFieldResource1.HeaderText", new CultureInfo("en-US"));
+            ;
 
-
-
+            //currentget.FromResource(
+            //    "C:\\Users\\recep.kaya.BIMSADOM\\source\\repos\\versionUpdate1\\versionUpdate1\\App_LocalResources\\versionControl.aspx.en-US.resx",
+            //  new CultureInfo("en-Us"));
             var adet = currentget.DocCount("C:\\Users\\recep.kaya.BIMSADOM\\Desktop\\scripts");
 
-            var sonucmd = currentget.GetLastVersion(new SqlConnection(connectionString));
+            var sonucmd = currentget.GetProgramVersion(new SqlConnection(connectionString));
             int lastVersion = sonucmd;
 
             ////"lastVersion" bilgisini DB'den "Versions" tablosunun tarih olarak en son girilen kaydını alıyor.
@@ -69,21 +68,21 @@ namespace versionUpdate1
             //SqlConnection baglanti1 = new SqlConnection("Data Source=PC_RKAYAW10E\\MYSERVERR;Initial Catalog=Program;Persist Security Info=True;User ID=sa;Password=Bimsa.1998");
             //baglanti1.Open();
             //SqlTransaction tran = baglanti1.BeginTransaction();
-            programVersion += 1;
-
-            if (programVersion != lastVersion)
-            {
+          
+            
                 //do
                 //{
                 //for (int i = programVersion; i <= adet; i++)
                 //{
                     //programVersion = i;
-                    var path1 = "C:\\Users\\recep.kaya.BIMSADOM\\Desktop\\scripts\\" + programVersion + ".sql";
+                 
                     var path = "C:\\Users\\recep.kaya.BIMSADOM\\Desktop\\scripts";
                     //currentget.FileFind(path,programVersion);
                     currentget.ScriptReader(path, connectionString);
-             
-
+                    currentget.GetScriptCount(path);
+                Mail mail1 = new Mail();
+                
+              
                 //try
                 //{
                 //    do                //}
@@ -166,27 +165,27 @@ namespace versionUpdate1
                 //    Host = "smtp.gmail.com",
                 //    EnableSsl = true,
 
-                    //    };
-                    //    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    //    smtp.Send(mail);
-                    //    mail.Dispose();
+                //    };
+                //    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                //    smtp.Send(mail);
+                //    mail.Dispose();
 
-                    //}
-                    //finally
-                    //{
-                    //    baglanti1.Close();
-
-
-                    //}
+                //}
+                //finally
+                //{
+                //    baglanti1.Close();
 
 
-                }
+                //}
+
+
+            }
                 }
 
 
             }
 
-        }
+        
 
     //    }
     //}

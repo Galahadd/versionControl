@@ -5,6 +5,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="App_LocalResources\DefaultResources.resx" />
+    <EmbeddedResource Remove="App_LocalResources\versionControl.aspx.en-US.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="App_LocalResources\sa.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="App_LocalResources\sa.json" />
+    <Content Include="App_LocalResources\versionControl.aspx.en-US.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_LocalResources\DefaultResources.resx" />
+    <Content Include="DefaultResources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Cloud.Translation.V2" Version="1.1.0" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
   </ItemGroup>
