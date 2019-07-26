@@ -124,7 +124,7 @@
     <value />
   </data>
   <data name="BoundFieldResource1.HeaderText" xml:space="preserve">
-    <value>versions</value>
+    <value>versiones</value>
   </data>
   <data name="BoundFieldResource2.AccessibleHeaderText" xml:space="preserve">
     <value />
@@ -133,7 +133,7 @@
     <value />
   </data>
   <data name="BoundFieldResource2.HeaderText" xml:space="preserve">
-    <value>Date</value>
+    <value>Fecha</value>
   </data>
   <data name="BoundFieldResource3.AccessibleHeaderText" xml:space="preserve">
     <value />
@@ -142,7 +142,7 @@
     <value />
   </data>
   <data name="BoundFieldResource3.HeaderText" xml:space="preserve">
-    <value>Name</value>
+    <value>Nombre</value>
   </data>
   <data name="BoundFieldResource4.AccessibleHeaderText" xml:space="preserve">
     <value />
@@ -151,7 +151,7 @@
     <value />
   </data>
   <data name="BoundFieldResource4.HeaderText" xml:space="preserve">
-    <value>Surname</value>
+    <value>Apellido</value>
   </data>
   <data name="BoundFieldResource5.AccessibleHeaderText" xml:space="preserve">
     <value />
@@ -160,10 +160,10 @@
     <value />
   </data>
   <data name="BoundFieldResource5.HeaderText" xml:space="preserve">
-    <value>Age</value>
+    <value>Años</value>
   </data>
   <data name="Button1Resource1.Text" xml:space="preserve">
-    <value>lists</value>
+    <value>liza</value>
   </data>
   <data name="Button1Resource1.ToolTip" xml:space="preserve">
     <value />

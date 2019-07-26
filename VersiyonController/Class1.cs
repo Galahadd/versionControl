@@ -1,6 +1,7 @@
 ﻿using log4net;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -11,40 +12,18 @@ using System.Net.Mail;
 using System.Reflection;
 using System.Resources;
 using System.Security.Cryptography.X509Certificates;
+using System.Xml;
 using Google.Cloud.Translation.V2;
 namespace VersiyonController
 {
+ 
     
     public class Class1 : Mail
     {
-        public string GetResxNameByValue(string value)
-        {
-            System.Resources.ResourceManager rm = new System.Resources.ResourceManager("versionUpdate1.versionControl.aspx", this.GetType().Assembly);
-
-
-            var entry =
-                rm.GetResourceSet(System.Threading.Thread.CurrentThread.CurrentCulture, true, true)
-                    .OfType<DictionaryEntry>()
-                    .FirstOrDefault(e => e.Value.ToString() == value);
-
-            var key = entry.Key.ToString();
-            return key;
-
-        }
+        
         private static ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private bool catchstatus = false;
-        
-        public  void FromResource(string key, CultureInfo culture)
-        {
-           CultureInfo cinfo = new CultureInfo("tr-TR");
-            Assembly project =Assembly.Load("VersiyonController");
-            ResourceManager rm = new ResourceManager("VersiyonController.DefaultResources",project);
-            string x=  rm.GetString(key, cinfo);
-            string jsonPath = "C:\\Users\\recep.kaya.BIMSADOM\\source\\repos\\versionUpdate1\\versionUpdate1\\App_LocalResources\\sa.json";
-            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", jsonPath);
-            TranslationClient tran = TranslationClient.Create();
-            string sonuc = tran.TranslateText(x, "tr", "en").TranslatedText;
-        }
+
         public int GetProgramVersion(SqlConnection connectionString)
         {
 
@@ -111,16 +90,6 @@ namespace VersiyonController
                 komutUpdate.ExecuteNonQuery();
                 connection1.Close();
             }
-        }
-        public int DocCount(string docPath)
-        {
-            int dosyaSayisi = Directory.GetFiles(docPath).Length;
-            string[] dosya = Directory.GetDirectories(docPath);
-            for (int i = 0; i < dosya.Length; i++)
-            {
-                dosyaSayisi += DocCount((dosya[i]));
-            }
-            return dosyaSayisi;
         }
 
     }
