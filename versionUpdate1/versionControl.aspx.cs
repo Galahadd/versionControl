@@ -45,7 +45,7 @@ namespace versionUpdate1
             Mail sendmail = new Mail();
          
             //baglantiZımbcırtı.Close();
-            int tmpVer = 0;
+            
 
             string path2 = System.AppDomain.CurrentDomain.BaseDirectory;
 
